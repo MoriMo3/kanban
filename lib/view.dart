@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'model.dart';
 import 'view_model.dart';
 
-final names = ['📝 未着手 (To Do)', '🔨 作業中 (Doing)', '✅ 完了 (Done)'];
-final labels = ['未着手', '作業中', '完了'];
+final names = ['💡 思いつき', '⭐ お気に入り', '✨ 競合無し'];
+final labels = ['思いつき', 'お気に入り', '競合無し'];
 final colors = [
-  Colors.blue.shade50,
-  Colors.orange.shade50,
-  Colors.green.shade50,
+  Colors.yellow.shade50,
+  Colors.pink.shade50,
+  Colors.teal.shade50,
 ];
 
 class KanbanView extends StatefulWidget {
@@ -31,7 +31,7 @@ class _KanbanViewState extends State<KanbanView> {
     final result = await showDialog<String>(
       context: context,
       builder: (c) => AlertDialog(
-        title: Text('タスクを編集'),
+        title: Text('アイデアを編集'),
         content: TextFormField(
           initialValue: text,
           autofocus: true,
@@ -70,16 +70,16 @@ class _KanbanViewState extends State<KanbanView> {
       child: ListTile(
         title: Text(t.title),
         subtitle: buttons,
-      trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-        IconButton(
-          icon: Icon(Icons.edit),
-          onPressed: () => edit(t),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(icon: Icon(Icons.edit), onPressed: () => edit(t)),
+            IconButton(
+              icon: Icon(Icons.delete_outline),
+              onPressed: () => widget.vm.remove(t),
+            ),
+          ],
         ),
-        IconButton(
-          icon: Icon(Icons.delete_outline),
-          onPressed: () => widget.vm.remove(t),
-        ),
-      ]),
       ),
     );
   }
@@ -114,8 +114,8 @@ class _KanbanViewState extends State<KanbanView> {
     final field = TextField(
       controller: input,
       decoration: InputDecoration(
-        labelText: '新しいタスク',
-        hintText: '例：レポートを書く',
+        labelText: '新しいアイデア',
+        hintText: '例：毎日の献立を提案するアプリ',
         border: OutlineInputBorder(),
       ),
     );
@@ -124,7 +124,7 @@ class _KanbanViewState extends State<KanbanView> {
       builder: (context, value, child) => FilledButton.icon(
         onPressed: value.text.isEmpty ? null : add,
         icon: Icon(Icons.add),
-        label: Text('未着手に追加'),
+        label: Text('思いつきに追加'),
       ),
     );
     final entry = Card(
@@ -147,7 +147,7 @@ class _KanbanViewState extends State<KanbanView> {
     );
 
     return Scaffold(
-      appBar: AppBar(title: Text('📋 Kanban')),
+      appBar: AppBar(title: Text('💡 アイデア管理')),
       body: Column(
         children: [
           entry,
